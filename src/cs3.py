@@ -13,6 +13,7 @@
 # Lesser General Public License for more details.
 
 from sys import argv
+from pathlib import Path
 from typing import Dict, Iterable, Optional, Union
 from numbers import Number
 from decimal import Decimal
@@ -32,6 +33,7 @@ class Window(QMainWindow, Ui_MainWindow):
         # UI setup
         self.setupUi(self)
         self.setWindowTitle("cs3")
+        self.setWindowIcon(QIcon(str(Path(__file__).parent.parent.absolute()) + '/resources/icon.ico'))
         # Class members
         self.arrayFormatter = ArrayFormatter(
             self.fmtArrTextStart.text(),
