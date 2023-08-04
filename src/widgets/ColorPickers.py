@@ -20,6 +20,8 @@ from PySide6.QtCore import (Qt, Signal, QRect)
 
 from widgets.Images import ImageRoiSelector
 
+from utils.Maths import averageQImageRGB
+
 class ColorPicker(QWidget):
     colorSample = Signal(QColor)
 
@@ -169,10 +171,5 @@ class RegionColorPicker(ColorPicker):
 
 
     def computeRGBAverage(self, image):
-        # TODO optimize
-        pixels = [QColor(image.pixel(x, y)) for x in range(0, image.width()) for y in range(0, image.height())]
-        return QColor(
-            mean(map(lambda pixel: pixel.red(), pixels)),
-            mean(map(lambda pixel: pixel.green(), pixels)),
-            mean(map(lambda pixel: pixel.blue(), pixels))
-        )
+        avgRGB = averageQImageRGB(image)
+        return QColor(avgRGB[0], avgRGB[1], avgRGB[2])
