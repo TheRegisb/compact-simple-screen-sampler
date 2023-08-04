@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1139</width>
-    <height>382</height>
+    <width>1181</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,10 +129,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QRadioButton" name="selectionConfigRadRegion_2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+         <widget class="QRadioButton" name="selectionConfigRadRegion">
           <property name="text">
            <string>Region average</string>
           </property>
@@ -1113,7 +1110,7 @@
  <tabstops>
   <tabstop>sampleBtn</tabstop>
   <tabstop>selectionConfigRadSingle</tabstop>
-  <tabstop>selectionConfigRadRegion_2</tabstop>
+  <tabstop>selectionConfigRadRegion</tabstop>
   <tabstop>intTextR</tabstop>
   <tabstop>intBtnCopyR</tabstop>
   <tabstop>intTextG</tabstop>

@@ -12,9 +12,13 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
 
-from PySide6.QtWidgets import (QWidget)
-from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QPixmap, QCursor)
-from PySide6.QtCore import (Qt, Signal)
+from statistics import mean
+
+from PySide6.QtWidgets import (QWidget, QMainWindow)
+from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QPixmap, QCursor, QPainter, QFont, QPen)
+from PySide6.QtCore import (Qt, Signal, QRect)
+
+from widgets.Images import ImageRoiSelector
 
 class ColorPicker(QWidget):
     colorSample = Signal(QColor)
@@ -25,16 +29,20 @@ class ColorPicker(QWidget):
         self.grabMouse()
         self.grabKeyboard()
 
+
     def close(self):
         self.releaseMouse()
         self.releaseKeyboard()
         QGuiApplication.restoreOverrideCursor()
+        QMainWindow().show()
         super().close()
+
 
     def keyPressEvent(self, event):
         key = event.key()
         if key == Qt.Key_Escape:
             self.close()
+
 
     def getActiveScreen(self):
         app = QGuiApplication
@@ -57,14 +65,18 @@ class ColorPicker(QWidget):
         mouseScreenGeometry = screen.geometry()
         return globalMousePos - mouseScreenGeometry.topLeft()
 
+
+    def isPressed(self, event, button):
+        return event.buttons() & button == button
+
+
     def pickScreenColor(self):
         raise NotImplementedError('Error: pickScreenColor must be implemented by its subclasses')
 
 
 class PixelColorPicker(ColorPicker):
-
     def mousePressEvent(self, event):
-        if event.buttons() & Qt.LeftButton == Qt.LeftButton:
+        if self.isPressed(event, Qt.LeftButton):
             try:
                 self.colorSample.emit(self.pickScreenColor())
             except Exception as e:
@@ -72,8 +84,9 @@ class PixelColorPicker(ColorPicker):
                 print(e)
             finally:
                 self.close()
-        elif event.buttons() & Qt.RightButton == Qt.RightButton:
+        elif self.isPressed(event, Qt.RightButton) or self.isPressed(event, Qt.MiddleButton):
             self.close()
+
 
     def pickScreenColor(self):
         screen = self.getActiveScreen()
@@ -85,3 +98,81 @@ class PixelColorPicker(ColorPicker):
         else:
             return QColorConstants.Black
             
+
+class RegionColorPicker(ColorPicker):
+    def __init__(self, event):
+        super().__init__(event)
+        self.roiSelector = None
+        self.screen = None
+        self.ptStart = None
+        self.ptEnd = None
+        self.drawingStarted = False
+        self.image = None
+
+
+    def close(self):
+        if self.roiSelector is not None:
+            self.roiSelector.close()
+            self.roiSelector = None        
+        super().close()
+
+
+    def mousePressEvent(self, event):
+        if self.isPressed(event, Qt.LeftButton):
+            self.screen = self.getActiveScreen()
+            self.image = self.screen.grabWindow(0).toImage()
+            if self.roiSelector == None:
+                self.roiSelector = ImageRoiSelector(self.image, self.screen)
+            self.roiSelector.showFullScreen()
+            self.ptStart = self.getRelativeMousePosition(self.screen)
+            self.drawingStarted = True
+        if self.isPressed(event, Qt.RightButton) or self.isPressed(event, Qt.MiddleButton):
+            self.close()
+
+
+    def mouseMoveEvent(self, event):
+        if self.drawingStarted:
+            self.ptEnd = self.getRelativeMousePosition(self.screen)
+            rect = QRect(
+                self.ptStart.x(),
+                self.ptStart.y(),
+                (self.ptEnd.x() - self.ptStart.x()),
+                (self.ptEnd.y() - self.ptStart.y())
+            )
+            self.roiSelector.updateRoi(rect)
+
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.colorSample.emit(self.pickScreenColor())
+            self.close()
+
+
+    def pickScreenColor(self):
+        try:
+            QGuiApplication.setOverrideCursor(Qt.WaitCursor)
+            rect = self.image.rect().intersected(QRect(
+                self.ptStart.x(),
+                self.ptStart.y(),
+                (self.ptEnd.x() - self.ptStart.x()),
+                (self.ptEnd.y() - self.ptStart.y())
+            ))
+            roi = self.image.copy(rect)
+            avgColor = self.computeRGBAverage(roi)
+        except Exception as e:
+            print('Error: Unable to compute the average color of the region')
+            print(e)
+            avgColor = QColorConstants.Black
+        finally:
+            QGuiApplication.restoreOverrideCursor()
+        return avgColor
+
+
+    def computeRGBAverage(self, image):
+        # TODO optimize
+        pixels = [QColor(image.pixel(x, y)) for x in range(0, image.width()) for y in range(0, image.height())]
+        return QColor(
+            mean(map(lambda pixel: pixel.red(), pixels)),
+            mean(map(lambda pixel: pixel.green(), pixels)),
+            mean(map(lambda pixel: pixel.blue(), pixels))
+        )

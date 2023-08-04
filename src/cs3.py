@@ -17,21 +17,21 @@ from typing import Dict, Iterable, Optional, Union
 from numbers import Number
 from decimal import Decimal
 
-from utils.Maths import clamp
-from utils.Arrays import (ArrayFormatter, ActiveArray)
-from widgets.ColorPickers import (PixelColorPicker)
-
 from PySide6.QtGui import (QGuiApplication, QColorConstants, QCursor, QScreen, QColor, QPixmap, QBrush, QClipboard)
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QGraphicsPixmapItem, QGraphicsRectItem, QGraphicsScene, QLineEdit)
 from PySide6.QtCore import (Qt, Signal, QRect)
 
 from ui.main_window import Ui_MainWindow
+from utils.Maths import clamp
+from utils.Arrays import (ArrayFormatter, ActiveArray)
+from widgets.ColorPickers import (PixelColorPicker, RegionColorPicker)
 
 class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(Window, self).__init__()
         # UI setup
         self.setupUi(self)
+        self.setWindowTitle("cs3")
         # Class members
         self.arrayFormatter = ArrayFormatter(
             self.fmtArrTextStart.text(),
@@ -89,7 +89,10 @@ class Window(QMainWindow, Ui_MainWindow):
 
 
     def sampleScreenSlot(self):
-        cp = PixelColorPicker(self)
+        if self.selectionConfigRadSingle.isChecked():
+            cp = PixelColorPicker(self)
+        else:
+            cp = RegionColorPicker(self)
         cp.colorSample.connect(self.addNewColor)
 
 
@@ -196,5 +199,6 @@ class Window(QMainWindow, Ui_MainWindow):
 if __name__ == '__main__':
     app = QApplication(argv)
     win = Window()
+    #win.setWindowFlags(Qt.WindowTransparentForInput)
     win.show()
     exit(app.exec())

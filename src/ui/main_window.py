@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(1139, 382)
+        MainWindow.resize(1181, 391)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -128,11 +128,10 @@ class Ui_MainWindow(object):
 
         self.selectorLayout.addLayout(self.selectionConfigLayout)
 
-        self.selectionConfigRadRegion_2 = QRadioButton(self.centralwidget)
-        self.selectionConfigRadRegion_2.setObjectName(u"selectionConfigRadRegion_2")
-        self.selectionConfigRadRegion_2.setEnabled(False)
+        self.selectionConfigRadRegion = QRadioButton(self.centralwidget)
+        self.selectionConfigRadRegion.setObjectName(u"selectionConfigRadRegion")
 
-        self.selectorLayout.addWidget(self.selectionConfigRadRegion_2)
+        self.selectorLayout.addWidget(self.selectionConfigRadRegion)
 
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -645,8 +644,8 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.centralwidget)
         QWidget.setTabOrder(self.sampleBtn, self.selectionConfigRadSingle)
-        QWidget.setTabOrder(self.selectionConfigRadSingle, self.selectionConfigRadRegion_2)
-        QWidget.setTabOrder(self.selectionConfigRadRegion_2, self.intTextR)
+        QWidget.setTabOrder(self.selectionConfigRadSingle, self.selectionConfigRadRegion)
+        QWidget.setTabOrder(self.selectionConfigRadRegion, self.intTextR)
         QWidget.setTabOrder(self.intTextR, self.intBtnCopyR)
         QWidget.setTabOrder(self.intBtnCopyR, self.intTextG)
         QWidget.setTabOrder(self.intTextG, self.intBtnCopyG)
@@ -709,7 +708,7 @@ class Ui_MainWindow(object):
         self.sampleBtn.setText(QCoreApplication.translate("MainWindow", u" Sample screen", None))
         self.selectionConfigLabel.setText(QCoreApplication.translate("MainWindow", u"Selection Mode", None))
         self.selectionConfigRadSingle.setText(QCoreApplication.translate("MainWindow", u"Single pixel", None))
-        self.selectionConfigRadRegion_2.setText(QCoreApplication.translate("MainWindow", u"Region average", None))
+        self.selectionConfigRadRegion.setText(QCoreApplication.translate("MainWindow", u"Region average", None))
         self.floatTextB.setText(QCoreApplication.translate("MainWindow", u"0.0", None))
         self.floatBtnCopyRGB.setText("")
         self.hexBtnCopyR.setText("")
