@@ -13,24 +13,35 @@
 # Lesser General Public License for more details.
 
 from sys import byteorder
+from typing import Optional
 
 from numpy import (array, ndarray, flip, mean, delete, uint8)
 
 from PySide6.QtGui import QImage
 
 
-def clamp(num, minimum=None, maximum=None):
+def clamp(num: int | float,
+          minimum: Optional[int | float] = None,
+          maximum: Optional[int | float] = None) -> int | float:
+    """
+    Returns a value clamped between low and high boundaries.
+    :param num: Value to clamp.
+    :param minimum: The optional lower boundary.
+    :param maximum: The optional upper boundary.
+    :return: The value after the dead-band is applied.
+    """
     if minimum is not None and num < minimum:
-            return minimum
+        return minimum
     if maximum is not None and num > maximum:
         return maximum
     return num
 
 
-def getQImageRGB(image: QImage) -> ndarray:
+def get_qimage_rgb(image: QImage) -> ndarray:
     """
-    Extract the RGB value of each pixels as a 4D array of
-    (r,g,b) tuples grouped by columns, themselves grouped by lines.
+    Extracts the RGB value of each pixel of a QImage
+    :param image: An initialized QImage
+    :return: A 4D ndarray of (r,g,b) tuples grouped by columns, themselves grouped by lines.
     """
     reformatted = image.convertToFormat(QImage.Format_RGB32)
     w = reformatted.width()
@@ -38,18 +49,22 @@ def getQImageRGB(image: QImage) -> ndarray:
     bits = reformatted.constBits()
     arr = array(bits, uint8).reshape(h, w, 4)
     # Ensure the bits are ordered as ARGB regardless of endianness
-    return delete(arr if byteorder == 'big' else flip(arr) , 0, 2)
+    return delete(arr if byteorder == 'big' else flip(arr), 0, 2)
 
 
-def averageRGBChannels(arr: ndarray) -> list[int]:
+def average_rgb_channels(arr: ndarray) -> list[int]:
     """
-    Compute the integral mean value of each individual
-    color channel of a 4D array. 
+    Computes the integral mean value of each individual color channel of a 4D array.
     """
-    avgLines = mean(arr[:, :, :], axis=1)
-    avgCol = mean(avgLines, axis=0)
-    return [int(avgCol[0]), int(avgCol[1]), int(avgCol[2])]
+    avg_lines = mean(arr[:, :, :], axis=1)
+    avg_cols = mean(avg_lines, axis=0)
+    return [int(avg_cols[0]), int(avg_cols[1]), int(avg_cols[2])]
 
 
-def averageQImageRGB(image: QImage) -> list[int]:
-    return averageRGBChannels(getQImageRGB(image))
+def average_qimage_rgb(image: QImage) -> list[int]:
+    """
+    Computes the integral mean value of each color channel of a QImage.
+    :param image: An initialized QImage.
+    :return: An (r, g, b) int-tuple.
+    """
+    return average_rgb_channels(get_qimage_rgb(image))

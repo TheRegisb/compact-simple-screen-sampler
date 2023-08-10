@@ -13,11 +13,15 @@
 # Lesser General Public License for more details.
 
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import (QPen, QPainter, QColor)
-from PySide6.QtCore import Qt
+from PySide6.QtGui import (QPen, QPainter, QColor, QPaintEvent, QImage, QScreen)
+from PySide6.QtCore import Qt, QRect
+
 
 class ImageRoiSelector(QWidget):
-    def __init__(self, bg, screen):
+    """
+    Widget that can draw a rectangle on an image.
+    """
+    def __init__(self, bg: QImage, screen: QScreen):
         super().__init__()
         # UI setup
         self.setScreen(screen)
@@ -35,8 +39,11 @@ class ImageRoiSelector(QWidget):
         self.penInner.setStyle(Qt.DashDotLine)
         self.penInner.setWidth(2)
 
-
-    def paintEvent(self, event):
+    # QT Override
+    def paintEvent(self, event: QPaintEvent):
+        """
+        Draws the outline of the region of interest on the widget.
+        """
         qp = QPainter()
         qp.begin(self)
         try:
@@ -50,7 +57,9 @@ class ImageRoiSelector(QWidget):
         finally:
             qp.end()
 
-
-    def updateRoi(self, roi):
+    def update_roi(self, roi: QRect):
+        """
+        Update the geometry of the region of interest.
+        """
         self.roi = roi
         self.update()

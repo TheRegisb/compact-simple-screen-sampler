@@ -12,15 +12,16 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
 
-from statistics import mean
+import traceback
+from sys import stderr
 
+from PySide6.QtCore import (Qt, Signal, QRect, QPoint)
+from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QCursor, QScreen, QKeyEvent, QMouseEvent, QImage)
 from PySide6.QtWidgets import (QWidget, QMainWindow)
-from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QPixmap, QCursor, QPainter, QFont, QPen)
-from PySide6.QtCore import (Qt, Signal, QRect)
 
+from utils.Maths import average_qimage_rgb
 from widgets.Images import ImageRoiSelector
 
-from utils.Maths import averageQImageRGB
 
 class ColorPicker(QWidget):
     colorSample = Signal(QColor)
@@ -31,7 +32,6 @@ class ColorPicker(QWidget):
         self.grabMouse()
         self.grabKeyboard()
 
-
     def close(self):
         self.releaseMouse()
         self.releaseKeyboard()
@@ -39,67 +39,92 @@ class ColorPicker(QWidget):
         QMainWindow().show()
         super().close()
 
-
-    def keyPressEvent(self, event):
+    # QT Override
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        """
+        Close the widget on Escape key press.
+        """
         key = event.key()
         if key == Qt.Key_Escape:
             self.close()
 
-
-    def getActiveScreen(self):
+    @staticmethod
+    def get_active_screen() -> QScreen:
+        """
+        Finds the screen that currently contains the cursor.
+        :return: The screen that contains the cursor, or the primary screen otherwise.
+        """
         app = QGuiApplication
-        cursorPos = QCursor.pos()
-        activeScreen = None
+        cursor_pos = QCursor.pos()
 
         for screen in app.screens():
-            screenRect = screen.geometry()
-            if (screenRect.contains(cursorPos)):
-                activeScreen = screen
+            screen_rect = screen.geometry()
+            if screen_rect.contains(cursor_pos):
+                active_screen = screen
                 break
         else:
-            println('Warning: Could not find the screen containing the cursor')
-            activeScreen = app.primaryScreen()
-        return activeScreen
-            
+            print('Warning: Could not find the screen containing the cursor', file=stderr)
+            active_screen = app.primaryScreen()
+        return active_screen
 
-    def getRelativeMousePosition(self, screen):
-        globalMousePos = QCursor.pos()
-        mouseScreenGeometry = screen.geometry()
-        return globalMousePos - mouseScreenGeometry.topLeft()
+    @staticmethod
+    def get_relative_cursor_position(screen: QScreen) -> QPoint:
+        """
+        Get the position of the cursor relative to a screen.
+        :param screen: Screen to check the position against.
+        :return: The relative position of the cursor.
+        """
+        global_mouse_pos = QCursor.pos()
+        mouse_screen_geometry = screen.geometry()
+        return global_mouse_pos - mouse_screen_geometry.topLeft()
 
-
-    def isPressed(self, event, button):
+    @staticmethod
+    def is_pressed(event: QMouseEvent, button: Qt.MouseButton) -> bool:
+        """
+        Check if a mouse button have been pressed during a mouse event.
+        """
         return event.buttons() & button == button
 
-
-    def pickScreenColor(self):
-        raise NotImplementedError('Error: pickScreenColor must be implemented by its subclasses')
+    def pick_screen_color(self) -> QColor:
+        """
+        Method that throws an exception unless implemented by a child class.
+        """
+        raise NotImplementedError('Error: pick_screen_color must be implemented by its subclasses')
 
 
 class PixelColorPicker(ColorPicker):
-    def mousePressEvent(self, event):
-        if self.isPressed(event, Qt.LeftButton):
+    # QT Override
+    def mousePressEvent(self, event: QMouseEvent) -> None:
+        """
+        Emits the color of the pixel under the cursor on left button press then close the widget. Immediately closes
+        the widget on right or middle mouse button press.
+        """
+        if self.is_pressed(event, Qt.LeftButton):
             try:
-                self.colorSample.emit(self.pickScreenColor())
-            except Exception as e:
-                print('Error: Unexpected exception during picking -- releasing mouse')
-                print(e)
+                self.colorSample.emit(self.pick_screen_color())
+            except Exception as e:  # Board exception catch, we cannot let the program hang/crash during input grab
+                traceback.print_exc()
+                print(f'Error: Unexpected exception during picking due to {e} -- releasing mouse', file=stderr)
             finally:
                 self.close()
-        elif self.isPressed(event, Qt.RightButton) or self.isPressed(event, Qt.MiddleButton):
+        elif self.is_pressed(event, Qt.RightButton) or self.is_pressed(event, Qt.MiddleButton):
             self.close()
 
-
-    def pickScreenColor(self):
-        screen = self.getActiveScreen()
-        mousePos = self.getRelativeMousePosition(screen)
+    def pick_screen_color(self) -> QColor:
+        """
+        Pick the color of the pixel under the cursor.
+        :return: The color of the pixel under the cursor, or pure-black on failure.
+        """
+        screen = self.get_active_screen()
+        mouse_pos = self.get_relative_cursor_position(screen)
         image = screen.grabWindow(0).toImage()
 
-        if image.rect().contains(mousePos):
-            return QColor(image.pixel(mousePos))
+        if image.rect().contains(mouse_pos):
+            return QColor(image.pixel(mouse_pos))
         else:
+            print('Warnings: Cursor is outside of the active screen', file=stderr)
             return QColorConstants.Black
-            
+
 
 class RegionColorPicker(ColorPicker):
     def __init__(self, event):
@@ -111,46 +136,58 @@ class RegionColorPicker(ColorPicker):
         self.drawingStarted = False
         self.image = None
 
-
     def close(self):
         if self.roiSelector is not None:
             self.roiSelector.close()
-            self.roiSelector = None        
+            self.roiSelector = None
         super().close()
 
-
-    def mousePressEvent(self, event):
-        if self.isPressed(event, Qt.LeftButton):
-            self.screen = self.getActiveScreen()
+    # QT Override
+    def mousePressEvent(self, event: QMouseEvent) -> None:
+        """
+        Records the starting point of the selection rectangle on left click.
+        Closes the widget on right or middle button press.
+        """
+        if self.is_pressed(event, Qt.LeftButton):
+            self.screen = self.get_active_screen()
             self.image = self.screen.grabWindow(0).toImage()
-            if self.roiSelector == None:
+            if self.roiSelector is None:
                 self.roiSelector = ImageRoiSelector(self.image, self.screen)
             self.roiSelector.showFullScreen()
-            self.ptStart = self.getRelativeMousePosition(self.screen)
+            self.ptStart = self.get_relative_cursor_position(self.screen)
             self.drawingStarted = True
-        if self.isPressed(event, Qt.RightButton) or self.isPressed(event, Qt.MiddleButton):
+        if self.is_pressed(event, Qt.RightButton) or self.is_pressed(event, Qt.MiddleButton):
             self.close()
 
-
-    def mouseMoveEvent(self, event):
+    # QT Override
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        """
+        Updates the ending point of the selection rectangle and draw its outline on the visualization widget.
+        """
         if self.drawingStarted:
-            self.ptEnd = self.getRelativeMousePosition(self.screen)
+            self.ptEnd = self.get_relative_cursor_position(self.screen)
             rect = QRect(
                 self.ptStart.x(),
                 self.ptStart.y(),
                 (self.ptEnd.x() - self.ptStart.x()),
                 (self.ptEnd.y() - self.ptStart.y())
             )
-            self.roiSelector.updateRoi(rect)
+            self.roiSelector.update_roi(rect)
 
-
-    def mouseReleaseEvent(self, event):
+    # QT Override
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
+        """
+        Emits the average color of the selected region when the left mouse button is released then close the widget.
+        """
         if event.button() == Qt.LeftButton:
-            self.colorSample.emit(self.pickScreenColor())
+            self.colorSample.emit(self.pick_screen_color())
             self.close()
 
-
-    def pickScreenColor(self):
+    def pick_screen_color(self) -> QColor:
+        """
+        Extracts the selected region and compute its average color while displaying a wait cursor.
+        :return: The average color of the selected region or pure-black on failure.
+        """
         try:
             QGuiApplication.setOverrideCursor(Qt.WaitCursor)
             rect = self.image.rect().intersected(QRect(
@@ -160,16 +197,18 @@ class RegionColorPicker(ColorPicker):
                 (self.ptEnd.y() - self.ptStart.y())
             ))
             roi = self.image.copy(rect)
-            avgColor = self.computeRGBAverage(roi)
-        except Exception as e:
-            print('Error: Unable to compute the average color of the region')
-            print(e)
-            avgColor = QColorConstants.Black
+            return self.compute_rgb_average(roi)
+        except Exception as e:  # Board exception catch, we cannot let the program hang/crash during input grab
+            traceback.print_exc()
+            print(f'Error: Unable to compute the average color of the region because of: {e}', file=stderr)
+            return QColorConstants.Black
         finally:
             QGuiApplication.restoreOverrideCursor()
-        return avgColor
 
-
-    def computeRGBAverage(self, image):
-        avgRGB = averageQImageRGB(image)
-        return QColor(avgRGB[0], avgRGB[1], avgRGB[2])
+    @staticmethod
+    def compute_rgb_average(image: QImage) -> QColor:
+        """
+        Computes the average color an entire QImage.
+        """
+        avg_rgb = average_qimage_rgb(image)
+        return QColor(avg_rgb[0], avg_rgb[1], avg_rgb[2])
