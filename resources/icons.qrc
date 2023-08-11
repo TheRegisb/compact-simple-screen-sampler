@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="breeze">
+    <file>breeze-icons/actions/16/edit-copy.svg</file>
+    <file>breeze-icons/actions/16/go-next.svg</file>
+    <file>breeze-icons/actions/16/go-previous.svg</file>
+    <file>breeze-icons/index.theme</file>
+    <file>breeze-icons/actions/16/camera-photo.svg</file>
+  </qresource>
+  <qresource prefix="cs3">
+    <file>icon.ico</file>
+  </qresource>
+</RCC>

@@ -34,8 +34,6 @@ class Cs3MainWindow(QMainWindow, Ui_MainWindow):
         super(Cs3MainWindow, self).__init__()
         # UI setup
         self.setupUi(self)
-        self.setWindowTitle("cs3")
-        self.setWindowIcon(QIcon(str(Path(__file__).parent.parent.absolute()) + '/resources/icon.ico'))
         # Class members
         self.arrayFormatter = CollectionFormatter(
             self.fmtArrTextStart.text(),

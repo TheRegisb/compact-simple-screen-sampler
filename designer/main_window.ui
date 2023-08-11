@@ -14,7 +14,12 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Compact Simple Screen Sampler</string>
+   <string>cs3</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/cs3/icon.ico</normalon>
+   </iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -36,7 +41,8 @@
               </property>
               <property name="icon">
                <iconset theme="go-previous">
-                <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+                <normalon>:/breeze/breeze-icons/actions/16/go-next.svg</normalon>
+               </iconset>
               </property>
              </widget>
             </item>
@@ -50,7 +56,8 @@
               </property>
               <property name="icon">
                <iconset theme="go-next">
-                <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+                <normalon>:/breeze/breeze-icons/actions/16/go-previous.svg</normalon>
+               </iconset>
               </property>
              </widget>
             </item>
@@ -87,7 +94,14 @@
           </property>
           <property name="icon">
            <iconset theme="camera-photo">
-            <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+            <normalon>:/breeze/breeze-icons/actions/16/camera-photo.svg</normalon>
+           </iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -184,7 +198,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -195,7 +210,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -206,7 +222,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -226,7 +243,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -237,7 +255,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -264,7 +283,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -320,7 +340,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -405,7 +426,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -490,7 +512,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -501,7 +524,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -512,7 +536,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -539,7 +564,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -634,7 +660,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -654,7 +681,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -722,7 +750,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -774,7 +803,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -794,7 +824,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -840,7 +871,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -902,7 +934,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -922,7 +955,8 @@
             </property>
             <property name="icon">
              <iconset theme="edit-copy">
-              <normaloff>../../../.designer/backup</normaloff>../../../.designer/backup</iconset>
+              <normalon>:/breeze/breeze-icons/actions/16/edit-copy.svg</normalon>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -1162,6 +1196,8 @@
   <tabstop>sampleNavBtnNext</tabstop>
   <tabstop>sampleDisplay</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

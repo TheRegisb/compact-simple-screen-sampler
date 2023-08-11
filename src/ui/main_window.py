@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGraphicsView,
     QGridLayout, QHBoxLayout, QLabel, QLineEdit,
     QMainWindow, QPushButton, QRadioButton, QSizePolicy,
     QSpacerItem, QSpinBox, QVBoxLayout, QWidget)
+import icons_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,6 +27,9 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(1181, 391)
+        icon = QIcon()
+        icon.addFile(u":/cs3/icon.ico", QSize(), QIcon.Normal, QIcon.On)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -41,28 +45,28 @@ class Ui_MainWindow(object):
         self.sampleNavBtnPrev = QPushButton(self.centralwidget)
         self.sampleNavBtnPrev.setObjectName(u"sampleNavBtnPrev")
         self.sampleNavBtnPrev.setEnabled(False)
-        icon = QIcon()
+        icon1 = QIcon()
         iconThemeName = u"go-previous"
         if QIcon.hasThemeIcon(iconThemeName):
-            icon = QIcon.fromTheme(iconThemeName)
+            icon1 = QIcon.fromTheme(iconThemeName)
         else:
-            icon.addFile(u"../../../.designer/backup", QSize(), QIcon.Normal, QIcon.Off)
+            icon1.addFile(u":/breeze/breeze-icons/actions/16/go-next.svg", QSize(), QIcon.Normal, QIcon.On)
 
-        self.sampleNavBtnPrev.setIcon(icon)
+        self.sampleNavBtnPrev.setIcon(icon1)
 
         self.sampleNavLayout.addWidget(self.sampleNavBtnPrev)
 
         self.sampleNavBtnNext = QPushButton(self.centralwidget)
         self.sampleNavBtnNext.setObjectName(u"sampleNavBtnNext")
         self.sampleNavBtnNext.setEnabled(False)
-        icon1 = QIcon()
+        icon2 = QIcon()
         iconThemeName = u"go-next"
         if QIcon.hasThemeIcon(iconThemeName):
-            icon1 = QIcon.fromTheme(iconThemeName)
+            icon2 = QIcon.fromTheme(iconThemeName)
         else:
-            icon1.addFile(u"../../../.designer/backup", QSize(), QIcon.Normal, QIcon.Off)
+            icon2.addFile(u":/breeze/breeze-icons/actions/16/go-previous.svg", QSize(), QIcon.Normal, QIcon.On)
 
-        self.sampleNavBtnNext.setIcon(icon1)
+        self.sampleNavBtnNext.setIcon(icon2)
 
         self.sampleNavLayout.addWidget(self.sampleNavBtnNext)
 
@@ -88,14 +92,15 @@ class Ui_MainWindow(object):
 
         self.sampleBtn = QPushButton(self.centralwidget)
         self.sampleBtn.setObjectName(u"sampleBtn")
-        icon2 = QIcon()
+        icon3 = QIcon()
         iconThemeName = u"camera-photo"
         if QIcon.hasThemeIcon(iconThemeName):
-            icon2 = QIcon.fromTheme(iconThemeName)
+            icon3 = QIcon.fromTheme(iconThemeName)
         else:
-            icon2.addFile(u"../../../.designer/backup", QSize(), QIcon.Normal, QIcon.Off)
+            icon3.addFile(u":/breeze/breeze-icons/actions/16/camera-photo.svg", QSize(), QIcon.Normal, QIcon.On)
 
-        self.sampleBtn.setIcon(icon2)
+        self.sampleBtn.setIcon(icon3)
+        self.sampleBtn.setIconSize(QSize(16, 16))
 
         self.selectorLayout.addWidget(self.sampleBtn)
 
@@ -161,26 +166,26 @@ class Ui_MainWindow(object):
 
         self.floatBtnCopyRGB = QPushButton(self.centralwidget)
         self.floatBtnCopyRGB.setObjectName(u"floatBtnCopyRGB")
-        icon3 = QIcon()
+        icon4 = QIcon()
         iconThemeName = u"edit-copy"
         if QIcon.hasThemeIcon(iconThemeName):
-            icon3 = QIcon.fromTheme(iconThemeName)
+            icon4 = QIcon.fromTheme(iconThemeName)
         else:
-            icon3.addFile(u"../../../.designer/backup", QSize(), QIcon.Normal, QIcon.Off)
+            icon4.addFile(u":/breeze/breeze-icons/actions/16/edit-copy.svg", QSize(), QIcon.Normal, QIcon.On)
 
-        self.floatBtnCopyRGB.setIcon(icon3)
+        self.floatBtnCopyRGB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.floatBtnCopyRGB, 4, 5, 1, 1)
 
         self.hexBtnCopyR = QPushButton(self.centralwidget)
         self.hexBtnCopyR.setObjectName(u"hexBtnCopyR")
-        self.hexBtnCopyR.setIcon(icon3)
+        self.hexBtnCopyR.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.hexBtnCopyR, 0, 8, 1, 1)
 
         self.hexBtnCopyG = QPushButton(self.centralwidget)
         self.hexBtnCopyG.setObjectName(u"hexBtnCopyG")
-        self.hexBtnCopyG.setIcon(icon3)
+        self.hexBtnCopyG.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.hexBtnCopyG, 1, 8, 1, 1)
 
@@ -192,13 +197,13 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.intBtnCopyR.sizePolicy().hasHeightForWidth())
         self.intBtnCopyR.setSizePolicy(sizePolicy2)
-        self.intBtnCopyR.setIcon(icon3)
+        self.intBtnCopyR.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.intBtnCopyR, 0, 2, 1, 1)
 
         self.intBtnCopyG = QPushButton(self.centralwidget)
         self.intBtnCopyG.setObjectName(u"intBtnCopyG")
-        self.intBtnCopyG.setIcon(icon3)
+        self.intBtnCopyG.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.intBtnCopyG, 1, 2, 1, 1)
 
@@ -212,7 +217,7 @@ class Ui_MainWindow(object):
 
         self.intBtnCopyRGB = QPushButton(self.centralwidget)
         self.intBtnCopyRGB.setObjectName(u"intBtnCopyRGB")
-        self.intBtnCopyRGB.setIcon(icon3)
+        self.intBtnCopyRGB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.intBtnCopyRGB, 4, 2, 1, 1)
 
@@ -244,7 +249,7 @@ class Ui_MainWindow(object):
 
         self.hexBtnCopyB = QPushButton(self.centralwidget)
         self.hexBtnCopyB.setObjectName(u"hexBtnCopyB")
-        self.hexBtnCopyB.setIcon(icon3)
+        self.hexBtnCopyB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.hexBtnCopyB, 2, 8, 1, 1)
 
@@ -284,7 +289,7 @@ class Ui_MainWindow(object):
 
         self.hexBtnCopyRGB = QPushButton(self.centralwidget)
         self.hexBtnCopyRGB.setObjectName(u"hexBtnCopyRGB")
-        self.hexBtnCopyRGB.setIcon(icon3)
+        self.hexBtnCopyRGB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.hexBtnCopyRGB, 4, 8, 1, 1)
 
@@ -324,19 +329,19 @@ class Ui_MainWindow(object):
 
         self.floatBtnCopyG = QPushButton(self.centralwidget)
         self.floatBtnCopyG.setObjectName(u"floatBtnCopyG")
-        self.floatBtnCopyG.setIcon(icon3)
+        self.floatBtnCopyG.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.floatBtnCopyG, 1, 5, 1, 1)
 
         self.floatBtnCopyB = QPushButton(self.centralwidget)
         self.floatBtnCopyB.setObjectName(u"floatBtnCopyB")
-        self.floatBtnCopyB.setIcon(icon3)
+        self.floatBtnCopyB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.floatBtnCopyB, 2, 5, 1, 1)
 
         self.intBtnCopyB = QPushButton(self.centralwidget)
         self.intBtnCopyB.setObjectName(u"intBtnCopyB")
-        self.intBtnCopyB.setIcon(icon3)
+        self.intBtnCopyB.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.intBtnCopyB, 2, 2, 1, 1)
 
@@ -346,7 +351,7 @@ class Ui_MainWindow(object):
 
         self.floatBtnCopyR = QPushButton(self.centralwidget)
         self.floatBtnCopyR.setObjectName(u"floatBtnCopyR")
-        self.floatBtnCopyR.setIcon(icon3)
+        self.floatBtnCopyR.setIcon(icon4)
 
         self.dataRgbLayout.addWidget(self.floatBtnCopyR, 0, 5, 1, 1)
 
@@ -399,7 +404,7 @@ class Ui_MainWindow(object):
         self.floatBtnCopyH.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.floatBtnCopyH.sizePolicy().hasHeightForWidth())
         self.floatBtnCopyH.setSizePolicy(sizePolicy2)
-        self.floatBtnCopyH.setIcon(icon3)
+        self.floatBtnCopyH.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.floatBtnCopyH, 0, 5, 1, 1)
 
@@ -408,7 +413,7 @@ class Ui_MainWindow(object):
         self.intBtnCopyS.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.intBtnCopyS.sizePolicy().hasHeightForWidth())
         self.intBtnCopyS.setSizePolicy(sizePolicy2)
-        self.intBtnCopyS.setIcon(icon3)
+        self.intBtnCopyS.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.intBtnCopyS, 1, 2, 1, 1)
 
@@ -433,7 +438,7 @@ class Ui_MainWindow(object):
         self.floatBtnCopyL.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.floatBtnCopyL.sizePolicy().hasHeightForWidth())
         self.floatBtnCopyL.setSizePolicy(sizePolicy2)
-        self.floatBtnCopyL.setIcon(icon3)
+        self.floatBtnCopyL.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.floatBtnCopyL, 2, 5, 1, 1)
 
@@ -458,7 +463,7 @@ class Ui_MainWindow(object):
         self.intBtnCopyHSL.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.intBtnCopyHSL.sizePolicy().hasHeightForWidth())
         self.intBtnCopyHSL.setSizePolicy(sizePolicy2)
-        self.intBtnCopyHSL.setIcon(icon3)
+        self.intBtnCopyHSL.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.intBtnCopyHSL, 4, 2, 1, 1)
 
@@ -467,7 +472,7 @@ class Ui_MainWindow(object):
         self.intBtnCopyL.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.intBtnCopyL.sizePolicy().hasHeightForWidth())
         self.intBtnCopyL.setSizePolicy(sizePolicy2)
-        self.intBtnCopyL.setIcon(icon3)
+        self.intBtnCopyL.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.intBtnCopyL, 2, 2, 1, 1)
 
@@ -490,7 +495,7 @@ class Ui_MainWindow(object):
         self.floatBtnCopyS.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.floatBtnCopyS.sizePolicy().hasHeightForWidth())
         self.floatBtnCopyS.setSizePolicy(sizePolicy2)
-        self.floatBtnCopyS.setIcon(icon3)
+        self.floatBtnCopyS.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.floatBtnCopyS, 1, 5, 1, 1)
 
@@ -521,7 +526,7 @@ class Ui_MainWindow(object):
         self.intBtnCopyH.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.intBtnCopyH.sizePolicy().hasHeightForWidth())
         self.intBtnCopyH.setSizePolicy(sizePolicy2)
-        self.intBtnCopyH.setIcon(icon3)
+        self.intBtnCopyH.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.intBtnCopyH, 0, 2, 1, 1)
 
@@ -530,7 +535,7 @@ class Ui_MainWindow(object):
         self.floatBtnCopyHSL.setEnabled(True)
         sizePolicy2.setHeightForWidth(self.floatBtnCopyHSL.sizePolicy().hasHeightForWidth())
         self.floatBtnCopyHSL.setSizePolicy(sizePolicy2)
-        self.floatBtnCopyHSL.setIcon(icon3)
+        self.floatBtnCopyHSL.setIcon(icon4)
 
         self.dataHslLayout.addWidget(self.floatBtnCopyHSL, 4, 5, 1, 1)
 
@@ -702,7 +707,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Compact Simple Screen Sampler", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"cs3", None))
         self.sampleNavBtnPrev.setText("")
         self.sampleNavBtnNext.setText("")
         self.sampleBtn.setText(QCoreApplication.translate("MainWindow", u" Sample screen", None))
