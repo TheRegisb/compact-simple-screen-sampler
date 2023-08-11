@@ -19,8 +19,8 @@ from PySide6.QtCore import (Qt, Signal, QRect, QPoint)
 from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QCursor, QScreen, QKeyEvent, QMouseEvent, QImage)
 from PySide6.QtWidgets import (QWidget, QMainWindow)
 
-from utils.Maths import average_qimage_rgb
-from widgets.Images import ImageRoiSelector
+from app.utils.Maths import average_qimage_rgb
+from app.widgets.Images import ImageRoiSelector
 
 
 class ColorPicker(QWidget):

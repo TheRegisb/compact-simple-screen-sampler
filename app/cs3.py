@@ -14,16 +14,15 @@
 
 from decimal import Decimal
 from pathlib import Path
-from sys import argv
 from typing import Optional, Union, Iterable, Callable, Any
 
 from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QBrush, QIcon)
 from PySide6.QtWidgets import (QApplication, QMainWindow, QGraphicsRectItem, QGraphicsScene, QLineEdit)
 
-from ui.main_window import Ui_MainWindow
-from utils.Collections import (CollectionFormatter, ActiveList)
-from utils.Maths import clamp
-from widgets.ColorPickers import (PixelColorPicker, RegionColorPicker)
+from app.ui.main_window import Ui_MainWindow
+from app.utils.Collections import (CollectionFormatter, ActiveList)
+from app.utils.Maths import clamp
+from app.widgets.ColorPickers import (PixelColorPicker, RegionColorPicker)
 
 
 class Cs3MainWindow(QMainWindow, Ui_MainWindow):
@@ -231,8 +230,11 @@ class Cs3MainWindow(QMainWindow, Ui_MainWindow):
         return str(num)
 
 
-if __name__ == '__main__':
-    app = QApplication(argv)
-    win = Cs3MainWindow()
-    win.show()
-    exit(app.exec())
+class Cs3Runner():
+    @staticmethod
+    def run(argv) -> QApplication:
+        app = QApplication(argv)
+        win = Cs3MainWindow()
+
+        win.show()
+        return app.exec()
