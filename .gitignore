@@ -5,6 +5,9 @@ cs3.iml
 .idea
 pysidedeploy.*
 icons_rc.py
+cs3_rc.py
 app/ui/*
 out
 deployment
+\#*\#
+*.qm

@@ -13,16 +13,19 @@
 # Lesser General Public License for more details.
 
 from sys import byteorder
-from typing import Optional
+from typing import Optional, TypeVar, Union
 
 from numpy import (array, ndarray, flip, mean, delete, uint8)
 
 from PySide6.QtGui import QImage
 
 
-def clamp(num: int | float,
-          minimum: Optional[int | float] = None,
-          maximum: Optional[int | float] = None) -> int | float:
+T = TypeVar('T', bound=Union[int, float])
+
+
+def clamp(num: T,
+          minimum: Optional[T] = None,
+          maximum: Optional[T] = None) -> T:
     """
     Returns a value clamped between low and high boundaries.
     :param num: Value to clamp.

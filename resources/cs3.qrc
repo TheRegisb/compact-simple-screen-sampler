@@ -9,4 +9,7 @@
   <qresource prefix="cs3">
     <file>icon.ico</file>
   </qresource>
+  <qresource prefix="lang">
+    <file>translations/fr.qm</file>
+  </qresource>
 </RCC>

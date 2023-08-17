@@ -37,12 +37,11 @@
                <bool>false</bool>
               </property>
               <property name="text">
-               <string/>
+               <string notr="true"/>
               </property>
               <property name="icon">
-               <iconset theme="go-previous">
-                <normalon>:/breeze/breeze-icons/actions/16/go-next.svg</normalon>
-               </iconset>
+               <iconset resource="../resources/cs3.qrc">
+                <normaloff>:/breeze/breeze-icons/actions/16/go-previous.svg</normaloff>:/breeze/breeze-icons/actions/16/go-previous.svg</iconset>
               </property>
              </widget>
             </item>
@@ -52,12 +51,11 @@
                <bool>false</bool>
               </property>
               <property name="text">
-               <string/>
+               <string notr="true"/>
               </property>
               <property name="icon">
-               <iconset theme="go-next">
-                <normalon>:/breeze/breeze-icons/actions/16/go-previous.svg</normalon>
-               </iconset>
+               <iconset resource="../resources/cs3.qrc">
+                <normaloff>:/breeze/breeze-icons/actions/16/go-next.svg</normaloff>:/breeze/breeze-icons/actions/16/go-next.svg</iconset>
               </property>
              </widget>
             </item>
@@ -181,7 +179,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -266,7 +264,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -297,7 +295,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>(0, 0, 0)</string>
+             <string notr="true">(0, 0, 0)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -323,7 +321,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -351,7 +349,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -367,7 +365,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>#00</string>
+             <string notr="true">#00</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -409,7 +407,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>#00</string>
+             <string notr="true">#00</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -459,7 +457,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>#000000</string>
+             <string notr="true">#000000</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -495,7 +493,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -575,7 +573,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>#00</string>
+             <string notr="true">#00</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -597,7 +595,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>(0.0, 0.0, 0.0)</string>
+             <string notr="true">(0.0, 0.0, 0.0)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -613,7 +611,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -724,7 +722,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>(0, 0.0%, 0.0%)</string>
+             <string notr="true">(0, 0.0%, 0.0%)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -761,7 +759,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -777,7 +775,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0%</string>
+             <string notr="true">0.0%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -845,7 +843,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>(0.0, 0.0, 0.0)</string>
+             <string notr="true">(0.0, 0.0, 0.0)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -882,7 +880,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0%</string>
+             <string notr="true">0.0%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -898,7 +896,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -976,7 +974,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0.0</string>
+             <string notr="true">0.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -992,7 +990,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>0</string>
+             <string notr="true">0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1023,7 +1021,7 @@
           <item>
            <widget class="QLineEdit" name="fmtArrTextStart">
             <property name="text">
-             <string>(</string>
+             <string notr="true">(</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1036,7 +1034,7 @@
           <item>
            <widget class="QLineEdit" name="fmtArrTextSep">
             <property name="text">
-             <string>, </string>
+             <string notr="true">, </string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1049,7 +1047,7 @@
           <item>
            <widget class="QLineEdit" name="fmtArrTextEnd">
             <property name="text">
-             <string>)</string>
+             <string notr="true">)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1197,7 +1195,7 @@
   <tabstop>sampleDisplay</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/icons.qrc"/>
+  <include location="../resources/cs3.qrc"/>
  </resources>
  <connections/>
 </ui>
