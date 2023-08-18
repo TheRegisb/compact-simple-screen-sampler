@@ -11,3 +11,5 @@ out
 deployment
 \#*\#
 *.qm
+*.bin
+*.exe
