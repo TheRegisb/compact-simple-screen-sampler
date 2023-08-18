@@ -65,47 +65,47 @@ class ActiveList(list):
     """
     def __init__(self, *args):
         super().__init__(args)
-        self.activeIndex = None
+        self.active_index = None
 
     def append(self, val) -> None:
         """
         Adds an entry to the list and sets the active index to its end.
         """
         super().append(val)
-        self.activeIndex = len(self) - 1
+        self.active_index = len(self) - 1
 
     def get_active(self) -> Optional[Any]:
         """
         Gets the element under the active index.
         :return: The element under the active index if defined, None otherwise.
         """
-        return self[self.activeIndex] if self.activeIndex is not None else None
+        return self[self.active_index] if self.active_index is not None else None
 
     def move_to_previous(self) -> None:
         """
         Moves the active index to the previous element, up to the first element.
         """
-        if self.activeIndex is not None:
-            self.activeIndex = clamp(self.activeIndex - 1, minimum=0)
+        if self.active_index is not None:
+            self.active_index = clamp(self.active_index - 1, minimum=0)
 
     def move_to_next(self) -> None:
         """
         Moves the active index to the next element, up to the last element.
         """
-        if self.activeIndex is not None:
-            self.activeIndex = clamp(self.activeIndex + 1, maximum=len(self) - 1)
+        if self.active_index is not None:
+            self.active_index = clamp(self.active_index + 1, maximum=len(self) - 1)
 
     def at_start(self) -> bool:
         """
         Checks if the active index is at first element of the list.
         """
-        return self.activeIndex is None or self.activeIndex == 0
+        return self.active_index is None or self.active_index == 0
 
     def at_end(self) -> bool:
         """
         Checks if the active index is at the end of the list.
         """
-        return self.activeIndex is None or self.activeIndex == len(self) - 1
+        return self.active_index is None or self.active_index == len(self) - 1
 
     def empty(self) -> bool:
         """

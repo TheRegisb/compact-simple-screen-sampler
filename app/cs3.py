@@ -13,19 +13,17 @@
 # Lesser General Public License for more details.
 
 from decimal import Decimal
-from pathlib import Path
 from typing import Optional, Union, Iterable, Callable, Any
 
-from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QBrush, QIcon)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QGraphicsRectItem, QGraphicsScene, QLineEdit)
 from PySide6.QtCore import (QLibraryInfo, QTranslator, QLocale)
+from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QBrush)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QGraphicsRectItem, QGraphicsScene, QLineEdit)
 
 from app.ui.main_window import Ui_MainWindow
 from app.utils.Collections import (CollectionFormatter, ActiveList)
 from app.utils.Maths import clamp
 from app.widgets.ColorPickers import (PixelColorPicker, RegionColorPicker)
 
-import cs3_rc
 
 class Cs3MainWindow(QMainWindow, Ui_MainWindow):
     """
@@ -198,7 +196,7 @@ class Cs3MainWindow(QMainWindow, Ui_MainWindow):
         for field_content_tuple in zip(fields, content):
             field_content_tuple[0].setText(formatter(field_content_tuple[1]))
 
-    def format_float(self, num: Union[int , float]) -> str:
+    def format_float(self, num: Union[int, float]) -> str:
         """
         Stringify a number to a float with a UI-defined precision, UI-defined separator
         and no trailing 0 unless it's an integral number
@@ -232,9 +230,9 @@ class Cs3MainWindow(QMainWindow, Ui_MainWindow):
         return str(num)
 
 
-class Cs3Runner():
+class Cs3Runner:
     @staticmethod
-    def run(argv) -> QApplication:
+    def run(argv) -> int:
         app = QApplication(argv)
 
         base_lang_path = QLibraryInfo.location(QLibraryInfo.TranslationsPath)

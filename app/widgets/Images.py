@@ -54,20 +54,20 @@ class ImageRoiSelector(SingleImage):
         self.setWindowTitle("cs3 — Region Selector")
         # Class members definition
         self.roi = None
-        self.penOuter = QPen()
-        self.penInner = QPen()
+        self.pen_outer = QPen()
+        self.pen_inner = QPen()
         # Class members setup
-        self.penOuter.setColor(QColor(0, 0, 0))
-        self.penOuter.setWidth(4)
-        self.penInner.setColor(QColor(255, 255, 255))
-        self.penInner.setStyle(Qt.DashDotLine)
-        self.penInner.setWidth(2)
+        self.pen_outer.setColor(QColor(0, 0, 0))
+        self.pen_outer.setWidth(4)
+        self.pen_inner.setColor(QColor(255, 255, 255))
+        self.pen_inner.setStyle(Qt.DashDotLine)
+        self.pen_inner.setWidth(2)
 
     def custom_paint(self, qp: QPainter) -> None:
         if self.roi is not None:
-            qp.setPen(self.penOuter)
+            qp.setPen(self.pen_outer)
             qp.drawRect(self.roi)
-            qp.setPen(self.penInner)
+            qp.setPen(self.pen_inner)
             qp.drawRect(self.roi)
 
     def update_roi(self, roi: QRect):

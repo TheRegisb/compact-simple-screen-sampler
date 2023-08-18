@@ -147,23 +147,23 @@ class PixelColorPicker(ColorPicker):
 class RegionColorPicker(ColorPicker):
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
-        self.roiSelector = []
+        self.roi_selectors = []
         # As Windows doesn't support mouse grab outside the app's window, we plaster the screen(s) with widget(s)
         if os_name == 'nt':
             for screen in QGuiApplication.screens():
-                self.roiSelector.append(self.create_roi_selector(screen))
-                self.roiSelector[-1].showFullScreen()
+                self.roi_selectors.append(self.create_roi_selector(screen))
+                self.roi_selectors[-1].showFullScreen()
 
-        self.screen = None
-        self.ptStart = None
-        self.ptEnd = None
-        self.drawingStarted = False
+        self.active_screen = None
+        self.pt_start = None
+        self.pt_end = None
+        self.drawing_started = False
         self.image = None
 
     def close(self):
-        for widget in self.roiSelector:
+        for widget in self.roi_selectors:
             widget.close()
-        self.roiSelector = None
+        self.roi_selectors = None
         super().close()
 
     # QT Override
@@ -173,13 +173,13 @@ class RegionColorPicker(ColorPicker):
         Closes the widget on right or middle button press.
         """
         if self.is_pressed(event, Qt.LeftButton):
-            self.screen = self.get_active_screen()
-            self.image = self.screen.grabWindow(0).toImage()
+            self.active_screen = self.get_active_screen()
+            self.image = self.active_screen.grabWindow(0).toImage()
             if os_name != 'nt':
-                self.roiSelector.append(self.create_roi_selector(self.get_active_screen()))
-                self.roiSelector[0].showFullScreen()
-            self.ptStart = self.get_relative_cursor_position(self.screen)
-            self.drawingStarted = True
+                self.roi_selectors.append(self.create_roi_selector(self.get_active_screen()))
+                self.roi_selectors[0].showFullScreen()
+            self.pt_start = self.get_relative_cursor_position(self.active_screen)
+            self.drawing_started = True
         if self.is_pressed(event, Qt.RightButton) or self.is_pressed(event, Qt.MiddleButton):
             self.close()
 
@@ -188,13 +188,13 @@ class RegionColorPicker(ColorPicker):
         """
         Updates the ending point of the selection rectangle and draw its outline on the visualization widget.
         """
-        if self.drawingStarted:
-            self.ptEnd = self.get_relative_cursor_position(self.screen)
+        if self.drawing_started:
+            self.pt_end = self.get_relative_cursor_position(self.active_screen)
             rect = QRect(
-                self.ptStart.x(),
-                self.ptStart.y(),
-                (self.ptEnd.x() - self.ptStart.x()),
-                (self.ptEnd.y() - self.ptStart.y())
+                self.pt_start.x(),
+                self.pt_start.y(),
+                (self.pt_end.x() - self.pt_start.x()),
+                (self.pt_end.y() - self.pt_start.y())
             )
             self.get_active_roi_selector().update_roi(rect)
 
@@ -215,10 +215,10 @@ class RegionColorPicker(ColorPicker):
         try:
             QGuiApplication.setOverrideCursor(Qt.WaitCursor)
             rect = self.image.rect().intersected(QRect(
-                self.ptStart.x(),
-                self.ptStart.y(),
-                (self.ptEnd.x() - self.ptStart.x()),
-                (self.ptEnd.y() - self.ptStart.y())
+                self.pt_start.x(),
+                self.pt_start.y(),
+                (self.pt_end.x() - self.pt_start.x()),
+                (self.pt_end.y() - self.pt_start.y())
             ))
             roi = self.image.copy(rect)
             return self.compute_rgb_average(roi)
@@ -252,4 +252,4 @@ class RegionColorPicker(ColorPicker):
         Get the ImageRoiSelector widget that was selector for sampling.
         :return: The active widget.
         """
-        return next((widget for widget in self.roiSelector if widget.screen() == self.screen), self.roiSelector[0])
+        return next((rs for rs in self.roi_selectors if rs.screen() == self.active_screen), self.roi_selectors[0])
