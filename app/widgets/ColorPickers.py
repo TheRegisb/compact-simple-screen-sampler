@@ -14,19 +14,20 @@
 
 import traceback
 from sys import stderr
+from os import name as os_name
 
 from PySide6.QtCore import (Qt, Signal, QRect, QPoint)
 from PySide6.QtGui import (QGuiApplication, QColorConstants, QColor, QCursor, QScreen, QKeyEvent, QMouseEvent, QImage)
 from PySide6.QtWidgets import (QWidget, QMainWindow)
 
 from app.utils.Maths import average_qimage_rgb
-from app.widgets.Images import ImageRoiSelector
+from app.widgets.Images import (ImageRoiSelector, SingleImage)
 
 
 class ColorPicker(QWidget):
     colorSample = Signal(QColor)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: QWidget = None):
         super().__init__(parent)
         QGuiApplication.setOverrideCursor(Qt.CrossCursor)
         self.grabMouse()
@@ -93,6 +94,23 @@ class ColorPicker(QWidget):
 
 
 class PixelColorPicker(ColorPicker):
+    def __init__(self, parent: QWidget = None):
+        super().__init__(parent)
+        self.desktop_covers = None
+        # As Windows doesn't support mouse grab outside the app's window, we plaster the screen(s) with widget(s)
+        if os_name == 'nt':
+            self.desktop_covers = []
+            for screen in QGuiApplication.screens():
+                self.desktop_covers.append(SingleImage(screen.grabWindow(0).toImage(), screen))
+                self.desktop_covers[-1].showFullScreen()
+
+    def close(self):
+        if self.desktop_covers is not None:
+            for widget in self.desktop_covers:
+                widget.close()
+            self.desktop_covers = None
+        super().close()
+
     # QT Override
     def mousePressEvent(self, event: QMouseEvent) -> None:
         """
@@ -127,9 +145,15 @@ class PixelColorPicker(ColorPicker):
 
 
 class RegionColorPicker(ColorPicker):
-    def __init__(self, event):
-        super().__init__(event)
-        self.roiSelector = None
+    def __init__(self, parent: QWidget = None):
+        super().__init__(parent)
+        self.roiSelector = []
+        # As Windows doesn't support mouse grab outside the app's window, we plaster the screen(s) with widget(s)
+        if os_name == 'nt':
+            for screen in QGuiApplication.screens():
+                self.roiSelector.append(self.create_roi_selector(screen))
+                self.roiSelector[-1].showFullScreen()
+
         self.screen = None
         self.ptStart = None
         self.ptEnd = None
@@ -137,9 +161,9 @@ class RegionColorPicker(ColorPicker):
         self.image = None
 
     def close(self):
-        if self.roiSelector is not None:
-            self.roiSelector.close()
-            self.roiSelector = None
+        for widget in self.roiSelector:
+            widget.close()
+        self.roiSelector = None
         super().close()
 
     # QT Override
@@ -151,9 +175,9 @@ class RegionColorPicker(ColorPicker):
         if self.is_pressed(event, Qt.LeftButton):
             self.screen = self.get_active_screen()
             self.image = self.screen.grabWindow(0).toImage()
-            if self.roiSelector is None:
-                self.roiSelector = ImageRoiSelector(self.image, self.screen)
-            self.roiSelector.showFullScreen()
+            if os_name != 'nt':
+                self.roiSelector.append(self.create_roi_selector(self.get_active_screen()))
+                self.roiSelector[0].showFullScreen()
             self.ptStart = self.get_relative_cursor_position(self.screen)
             self.drawingStarted = True
         if self.is_pressed(event, Qt.RightButton) or self.is_pressed(event, Qt.MiddleButton):
@@ -172,7 +196,7 @@ class RegionColorPicker(ColorPicker):
                 (self.ptEnd.x() - self.ptStart.x()),
                 (self.ptEnd.y() - self.ptStart.y())
             )
-            self.roiSelector.update_roi(rect)
+            self.get_active_roi_selector().update_roi(rect)
 
     # QT Override
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
@@ -212,3 +236,20 @@ class RegionColorPicker(ColorPicker):
         """
         avg_rgb = average_qimage_rgb(image)
         return QColor(avg_rgb[0], avg_rgb[1], avg_rgb[2])
+
+    @staticmethod
+    def create_roi_selector(screen: QScreen) -> ImageRoiSelector:
+        """
+        Create an ImageRoiSelector for a given screen.
+        :param screen: Screen to be copied and displayed on.
+        :return: A widget ready to be displayed.
+        """
+        image = screen.grabWindow(0).toImage()
+        return ImageRoiSelector(image, screen)
+
+    def get_active_roi_selector(self) -> ImageRoiSelector:
+        """
+        Get the ImageRoiSelector widget that was selector for sampling.
+        :return: The active widget.
+        """
+        return next((widget for widget in self.roiSelector if widget.screen() == self.screen), self.roiSelector[0])

@@ -17,18 +17,42 @@ from PySide6.QtGui import (QPen, QPainter, QColor, QPaintEvent, QImage, QScreen)
 from PySide6.QtCore import Qt, QRect
 
 
-class ImageRoiSelector(QWidget):
+class SingleImage(QWidget):
+    def __init__(self, bg: QImage, screen: QScreen, parent=None):
+        super().__init__(parent)
+        self.bg = bg
+        self.setScreen(screen)
+        self.move(screen.geometry().x(), screen.geometry().y())
+        self.setWindowTitle('cs3 - Desktop Cover')
+
+    # QT Override
+    def paintEvent(self, event: QPaintEvent) -> None:
+        qp = QPainter()
+        qp.begin(self)
+        try:
+            if self.bg is not None:
+                qp.drawImage(0, 0, self.bg)
+            self.custom_paint(qp)
+        finally:
+            qp.end()
+
+    def custom_paint(self, qp: QPainter) -> None:
+        """
+        Custom paint procedure to be implemented by subclasses.
+        :param qp: The active QPainter of this
+        """
+        pass
+
+
+class ImageRoiSelector(SingleImage):
     """
     Widget that can draw a rectangle on an image.
     """
-    def __init__(self, bg: QImage, screen: QScreen):
-        super().__init__()
+    def __init__(self, bg: QImage, screen: QScreen, parent=None):
+        super().__init__(bg, screen, parent)
         # UI setup
-        self.setScreen(screen)
-        self.move(screen.geometry().x(), screen.geometry().y())
         self.setWindowTitle("cs3 — Region Selector")
         # Class members definition
-        self.bg = bg
         self.roi = None
         self.penOuter = QPen()
         self.penInner = QPen()
@@ -39,23 +63,12 @@ class ImageRoiSelector(QWidget):
         self.penInner.setStyle(Qt.DashDotLine)
         self.penInner.setWidth(2)
 
-    # QT Override
-    def paintEvent(self, event: QPaintEvent):
-        """
-        Draws the outline of the region of interest on the widget.
-        """
-        qp = QPainter()
-        qp.begin(self)
-        try:
-            if self.bg is not None:
-                qp.drawImage(0, 0, self.bg)
-            if self.roi is not None:
-                qp.setPen(self.penOuter)
-                qp.drawRect(self.roi)
-                qp.setPen(self.penInner)
-                qp.drawRect(self.roi)
-        finally:
-            qp.end()
+    def custom_paint(self, qp: QPainter) -> None:
+        if self.roi is not None:
+            qp.setPen(self.penOuter)
+            qp.drawRect(self.roi)
+            qp.setPen(self.penInner)
+            qp.drawRect(self.roi)
 
     def update_roi(self, roi: QRect):
         """
