@@ -59,13 +59,13 @@ python main.py
 ```
 5. Compiling the program as a self-contained native application (optional)
 This is a timely and compute-intensive step. You may also have to manually tweak the deployment file to solve possible paths issues you may encounter outside a virtual environment.
-5.1 Firstly, create the deployment specifications: ```pyside6-deploy --init --name cs3```
-5.2 Open the file `pysidedeploy.spec` you just have created
-5.3 Change the content of the `excluded_qml_plugins`  variable by `QtQuick, QtQuick3D, QtCharts, QtWebEngine, QtTest, QtSensors` to reduce size of the produced application
-5.4 Add `--windows-disable-console` to the arguments of `extra_args`
-5.5 Feel free to tweak the other variables as you see fit [if you know what you are doing](https://doc.qt.io/qtforpython-6/deployment/deployment-pyside6-deploy.html#pysidedeploy-spec)
-5.6 Run the command `pyside6-deploy -c pysidedeploy.spec`
-5.7 Once the compilation is completed, you can run the application as any other graphic application by clicking on it. You no longer have to use the Python interpreter or to set up the virtual environment to run it.
+	1. Firstly, create the deployment specifications: ```pyside6-deploy --init --name cs3```
+	2. Open the file `pysidedeploy.spec` you just have created
+	3. Change the content of the `excluded_qml_plugins`  variable by `QtQuick, QtQuick3D, QtCharts, QtWebEngine, QtTest, QtSensors` to reduce size of the produced application
+	4. Add `--windows-disable-console` to the arguments of `extra_args`
+	5. Feel free to tweak the other variables as you see fit [if you know what you are doing](https://doc.qt.io/qtforpython-6/deployment/deployment-pyside6-deploy.html#pysidedeploy-spec)
+	6. Run the command `pyside6-deploy -c pysidedeploy.spec`
+	7. Once the compilation is completed, you can run the application as any other graphic application by clicking on it. You no longer have to use the Python interpreter or to set up the virtual environment to run it.
 
 ### On *NIX
 1. Creating the virtual environment (optional)
@@ -102,12 +102,12 @@ python3 main.py
 ```
 5. Compiling the program as a self-contained native application (optional)
 This is a timely and compute-intensive step. You may also have to manually tweak the deployment file to solve possible paths issues you may encounter outside a virtual environment.
-5.1 Firstly, create the deployment specifications: ```pyside6-deploy --init --name cs3```
-5.2 Open the file `pysidedeploy.spec` you just have created
-5.3 Change the content of the `excluded_qml_plugins`  variable by `QtQuick, QtQuick3D, QtCharts, QtWebEngine, QtTest, QtSensors` to reduce size of the produced application
-5.4 Feel free to tweak the other variables as you see fit [if you know what you are doing](https://doc.qt.io/qtforpython-6/deployment/deployment-pyside6-deploy.html#pysidedeploy-spec)
-5.5 Run the command `pyside6-deploy -c pysidedeploy.spec`
-5.6 Once the compilation is completed, you can run the application as any other graphic application by clicking on it. You no longer have to use the Python interpreter or to set up the virtual environment to run it.
+	1. Firstly, create the deployment specifications: ```pyside6-deploy --init --name cs3```
+	2. Open the file `pysidedeploy.spec` you just have created
+	3. Change the content of the `excluded_qml_plugins`  variable by `QtQuick, QtQuick3D, QtCharts, QtWebEngine, QtTest, QtSensors` to reduce size of the produced application
+	4. Feel free to tweak the other variables as you see fit [if you know what you are doing](https://doc.qt.io/qtforpython-6/deployment/deployment-pyside6-deploy.html#pysidedeploy-spec)
+	5. Run the command `pyside6-deploy -c pysidedeploy.spec`
+	6. Once the compilation is completed, you can run the application as any other graphic application by clicking on it. You no longer have to use the Python interpreter or to set up the virtual environment to run it.
 # Creating Additional Translations
 Using the [Qt Linguist module](https://doc.qt.io/qtforpython-6/tutorials/basictutorial/translations.html), one is able to translate the dozen of strings displayed by this application. All required utilities are bundled with the PySide6-essentials PIP package. The following steps are identical between Windows and other systems, just mind the path separator (backward or forward slash).
 1. Generate a transcription file from the exiting UI element by running the following command. Replace `<target_language>` with the actual language name or locale code you want to translate in.
